@@ -3,7 +3,7 @@ import pyxel
 pyxel.init(700,500)
 
 class Grape:
-    speed = 3
+    speed = 4.5
     def __init__(self):
         self.restart()
    
@@ -198,13 +198,13 @@ class App:
     def update(self):
 
         if self.score == 20:
-            Rock.speed += 0.2
+            Rock.speed += 0.1
         if self.score == 40:
             Rock.speed += 0.1
         if self.score == 60:
-            Rock.speed += 0.05
+            Rock.speed += 0.1
         if self.score == 80:
-            Rock.speed += 0.05
+            Rock.speed += 0.1
 
 
         for g in self.grapes:

@@ -2,14 +2,14 @@ import pyxel
 
 pyxel.init(700,500)
 
-class Ball:
-    speed = 5
+class Grape:
+    speed = 3
     def __init__(self):
         self.restart()
    
     def move(self):
-        self.x += self.vx * Ball.speed
-        self.y += self.vy * Ball.speed
+        self.x += self.vx * Grape.speed
+        self.y += self.vy * Grape.speed
 
     def restart(self):
         self.x = pyxel.rndi(0, 700)  
@@ -18,7 +18,7 @@ class Ball:
         self.vy = pyxel.sin(90)
 
 class Apple:
-    speed = 5
+    speed = 4
     def __init__(self):
         self.restart()
    
@@ -48,7 +48,7 @@ class Kiwi:
         self.vy = pyxel.sin(90)
 
 class Orenge:
-    speed = 5
+    speed = 6
     def __init__(self):
         self.restart()
    
@@ -80,7 +80,7 @@ class Star:
         self.vy = pyxel.sin(angle)
 
 class Rock:
-    speed = 5
+    speed = 5.5
     def __init__(self):
         self.restart()
    
@@ -108,16 +108,16 @@ class App:
         self.fale = 0
         self.pad = Pad()
 
-        self.ball=1
-        self.ball1 = Ball()
-        self.ball2 = Ball()
-        self.ball3 = Ball()
-        self.ball4 = Ball()
-        self.ball5 = Ball()
-        self.ball6 = Ball()
-        self.ball7 = Ball()
-        self.balls = [self.ball1, self.ball2, self.ball3, 
-        self.ball4, self.ball5, self.ball6, self.ball7]
+        self.grape=1
+        self.grape1 = Grape()
+        self.grape2 = Grape()
+        self.grape3 = Grape()
+        self.grape4 = Grape()
+        self.grape5 = Grape()
+        self.grape6 = Grape()
+        self.grape7 = Grape()
+        self.grapes = [self.grape1, self.grape2, self.grape3, 
+        self.grape4, self.grape5, self.grape6, self.grape7]
 
 
         self.apple=1
@@ -180,7 +180,6 @@ class App:
         self.rock17 = Rock()
         self.rock18 = Rock()
 
-
         self.rocks = [self.rock1, self.rock2, self.rock3, 
         self.rock4, self.rock5, self.rock6, self.rock7, 
         self.rock8, self.rock9, self.rock10, self.rock11,
@@ -198,14 +197,26 @@ class App:
 
     def update(self):
 
-        for i in self.balls:
-            i.move()
-            if 390 <= i.y <= 410 and self.pad.x <= i.x <= self.pad.x+100 :
+        if self.score == 20:
+            Rock.speed += 0.2
+        if self.score == 40:
+            Rock.speed += 0.1
+        if self.score == 60:
+            Rock.speed += 0.05
+        if self.score == 80:
+            Rock.speed += 0.05
+
+
+        for g in self.grapes:
+            g.move()
+            if 390 <= g.y <= 410 and self.pad.x <= g.x <= self.pad.x+100 :
                 pyxel.playm(0, loop= False)
                 self.score += 1
-                i.restart()              
-            if i.y >= 500 :
-                i.restart()
+                g.restart()    
+                if self.score % 10 == 0:
+                    Grape.speed += 1          
+            if g.y >= 500 :
+                g.restart()
 
         for a in self.apples:
             a.move()
@@ -213,6 +224,8 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1   
                 a.restart()  
+                if self.score % 10 == 0:
+                    Apple.speed += 1   
             if a.y >= 500 :
                 a.restart()
 
@@ -222,6 +235,8 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1   
                 k.restart()  
+                if self.score % 10 == 0:
+                    Kiwi.speed += 1    
             if k.y >= 500 :
                 k.restart()
 
@@ -231,6 +246,8 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1
                 o.restart() 
+                if self.score % 10 == 0:
+                    Orenge.speed += 1    
             if o.y >= 500 :
                 o.restart()
 
@@ -250,41 +267,18 @@ class App:
         for r in self.rocks:
             r.move()
             if 390 <= r.y <= 410 and self.pad.x <= r.x <= self.pad.x+85 :
-                self.fale +=1                
+                self.fale +=1  
                 r.restart()   
             if r.y >= 500 :
                 r.restart()
-
-        if self.score == 20:
-            Ball.speed += 0.1
-            Apple.speed += 0.1
-            Orenge.speed += 0.1
-            Kiwi.speed += 0.1
-            Rock.speed += 0.1
-        if self.score == 40:
-            Ball.speed += 0.1
-            Apple.speed += 0.1
-            Orenge.speed += 0.1
-            Kiwi.speed += 0.1
-            Rock.speed += 0.1
-        if self.score == 60:
-            Ball.speed += 0.1
-            Apple.speed += 0.1
-            Orenge.speed += 0.1
-            Kiwi.speed += 0.1
-            Rock.speed += 0.1
-        if self.score == 80:
-            Ball.speed += 0.1
-            Apple.speed += 0.1
-            Orenge.speed += 0.1
-            Kiwi.speed += 0.1
-            Rock.speed += 0.1
-
+            if self.score % 20 == 0:
+                self.rock += 10              
 
         if pyxel.btn(pyxel.KEY_LEFT):
             self.pad.x += -10
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.pad.x += 10  
+
 
 
 
@@ -311,9 +305,9 @@ class App:
         if  self.score >= 100:
             pyxel.cls(10)
             pyxel.blt(310, 230,2,0,24,70,17,5)                      
-            for i in self.balls:
-                i.x = 0
-                i.y = 0
+            for g in self.grapes:
+                g.x = 0
+                g.y = 0
 
             for a in self.apples:
                 a.x = 0
@@ -349,9 +343,9 @@ class App:
             pyxel.cls(0)
             pyxel.blt(300, 230,2,0,0,111,17,10)
         
-            for i in self.balls:
-                i.x = 0
-                i.y = 0
+            for g in self.grapes:
+                g.x = 0
+                g.y = 0
 
             for a in self.apples:
                 a.x = 0
@@ -385,21 +379,16 @@ class App:
 
         
         else:
-            for i in self.balls:
-                pyxel.blt(i.x, i.y,1,0,32,20,18,13)
-
+            for g in self.grapes:
+                pyxel.blt(g.x, g.y,1,0,32,20,18,13)
             for a in self.apples:
-                pyxel.blt(a.x,a.y,1,0,0,20,20,13)    
-
+                pyxel.blt(a.x,a.y,1,0,0,20,20,13)   
             for s in self.stars:
                 pyxel.blt(s.x, s.y,1,32,0,20,18,13)
-
             for k in self.kiwis:
                 pyxel.blt(k.x, k.y,1,0,56,20,18,13)
-            
             for o in self.orenges:
                 pyxel.blt(o.x, o.y,1,8,77,20,20,13)            
-            
             for r in self.rocks:
                 pyxel.blt(r.x, r.y,1,28,40,20,18,7)
         

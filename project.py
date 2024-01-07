@@ -198,9 +198,9 @@ class App:
     def update(self):
 
         if self.score == 20:
-            Rock.speed += 0.1
+            Rock.speed += 0.05
         if self.score == 40:
-            Rock.speed += 0.1
+            Rock.speed += 0.07
         if self.score == 60:
             Rock.speed += 0.1
         if self.score == 80:

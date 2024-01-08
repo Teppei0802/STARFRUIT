@@ -171,13 +171,11 @@ class App:
         self.rock6 = Rock()
         self.rock7 = Rock()
         self.rock8 = Rock()
-        self.rock9 = Rock()
-        self.rock10 = Rock()
-
 
         self.rocks = [self.rock1, self.rock2, self.rock3, 
         self.rock4, self.rock5, self.rock6, self.rock7, 
-        self.rock8, self.rock9, self.rock10,]
+        self.rock8]
+
 
         pyxel.load("test.pyxres")
         pyxel.play(2, 6, loop= True)
@@ -199,7 +197,7 @@ class App:
         if self.score == 60:
             Rock.speed += 0.05
         if self.score == 80:
-            Rock.speed += -0.05
+            Rock.speed += 0.05
 
 
         for g in self.grapes:
@@ -275,9 +273,9 @@ class App:
             self.pad.x += 10  
 
     def add_rock(self):
-        new_rock = Rock()
-        self.rocks.append(new_rock)
-        self.rock_count += 1
+            new_rock = Rock()
+            self.rocks.append(new_rock)
+            self.rock_count += 1
 
 
 

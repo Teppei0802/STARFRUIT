@@ -104,10 +104,10 @@ class Pad:
 
 class App:
     def __init__(self):
-        self.rock_count = 1
-
         self.score = 0
         self.fale = 0
+        self.rocks_to_add = 6
+        self.last_rock_score = 0
         self.pad = Pad()
 
         self.grape=1
@@ -170,11 +170,10 @@ class App:
         self.rock5 = Rock()
         self.rock6 = Rock()
         self.rock7 = Rock()
-        self.rock8 = Rock()
+
 
         self.rocks = [self.rock1, self.rock2, self.rock3, 
-        self.rock4, self.rock5, self.rock6, self.rock7, 
-        self.rock8]
+        self.rock4, self.rock5, self.rock6, self.rock7, ]
 
 
         pyxel.load("test.pyxres")
@@ -187,17 +186,12 @@ class App:
 
 
     def update(self):
-        if self.score % 40 == 0 and self.score != 0:
-            self.add_rock()
-
-        if self.score == 20:
-            Rock.speed == 0.05
-        if self.score == 40:
-            Rock.speed += 0.05
-        if self.score == 60:
-            Rock.speed += 0.05
-        if self.score == 80:
-            Rock.speed += 0.05
+        if self.score // 20 > self.last_rock_score // 20:
+            self.add_rocks(self.rocks_to_add)
+            self.last_rock_score = self.score
+        
+        if self.score % 20 == 0 and self.score != 0:
+            Rock.speed += 0.03
 
 
         for g in self.grapes:
@@ -206,7 +200,7 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1
                 g.restart()    
-                if self.score % 10 == 0:
+                if self.score % 20 == 0:
                     Grape.speed += 1          
             if g.y >= 500 :
                 g.restart()
@@ -217,7 +211,7 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1   
                 a.restart()  
-                if self.score % 10 == 0:
+                if self.score % 20 == 0:
                     Apple.speed += 1   
             if a.y >= 500 :
                 a.restart()
@@ -228,7 +222,7 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1   
                 k.restart()  
-                if self.score % 10 == 0:
+                if self.score % 20 == 0:
                     Kiwi.speed += 1    
             if k.y >= 500 :
                 k.restart()
@@ -239,7 +233,7 @@ class App:
                 pyxel.playm(0, loop= False)
                 self.score += 1
                 o.restart() 
-                if self.score % 10 == 0:
+                if self.score % 20 == 0:
                     Orenge.speed += 1    
             if o.y >= 500 :
                 o.restart()
@@ -263,19 +257,17 @@ class App:
                 self.fale +=1  
                 r.restart()   
             if r.y >= 500 :
-                r.restart()
-            if self.score % 20 == 0:
-                self.rock += 10              
+                r.restart()         
 
         if pyxel.btn(pyxel.KEY_LEFT):
             self.pad.x += -10
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.pad.x += 10  
 
-    def add_rock(self):
+    def add_rocks(self, number):
+        for _ in range(number):
             new_rock = Rock()
             self.rocks.append(new_rock)
-            self.rock_count += 1
 
 
 
@@ -389,8 +381,7 @@ class App:
                 pyxel.blt(o.x, o.y,1,8,77,20,20,13)            
             for r in self.rocks:
                 pyxel.blt(r.x, r.y,1,28,40,20,18,7)
-            for r in self.rocks[:self.rock_count]:
-                pyxel.blt(r.x, r.y, 1, 28, 40, 20, 18, 7)
+
         
 
         pyxel.blt(self.pad.x,406, 0, 0, 0,100, 94, 10)    

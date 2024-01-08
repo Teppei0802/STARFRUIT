@@ -104,6 +104,8 @@ class Pad:
 
 class App:
     def __init__(self):
+        self.rock_count = 1
+
         self.score = 0
         self.fale = 0
         self.pad = Pad()
@@ -171,20 +173,11 @@ class App:
         self.rock8 = Rock()
         self.rock9 = Rock()
         self.rock10 = Rock()
-        self.rock11 = Rock()
-        self.rock12 = Rock()
-        self.rock13 = Rock()
-        self.rock14 = Rock()
-        self.rock15 = Rock()
-        self.rock16 = Rock()
-        self.rock17 = Rock()
-        self.rock18 = Rock()
+
 
         self.rocks = [self.rock1, self.rock2, self.rock3, 
         self.rock4, self.rock5, self.rock6, self.rock7, 
-        self.rock8, self.rock9, self.rock10, self.rock11,
-        self.rock12, self.rock13, self.rock14, self.rock15,
-        self.rock16, self.rock17, self.rock18, ]
+        self.rock8, self.rock9, self.rock10,]
 
         pyxel.load("test.pyxres")
         pyxel.play(2, 6, loop= True)
@@ -196,15 +189,17 @@ class App:
 
 
     def update(self):
+        if self.score % 40 == 0 and self.score != 0:
+            self.add_rock()
 
         if self.score == 20:
-            Rock.speed += 0.05
+            Rock.speed == 0.05
         if self.score == 40:
-            Rock.speed += 0.07
+            Rock.speed += 0.05
         if self.score == 60:
-            Rock.speed += 0.1
+            Rock.speed += 0.05
         if self.score == 80:
-            Rock.speed += 0.1
+            Rock.speed += -0.05
 
 
         for g in self.grapes:
@@ -278,6 +273,11 @@ class App:
             self.pad.x += -10
         if pyxel.btn(pyxel.KEY_RIGHT):
             self.pad.x += 10  
+
+    def add_rock(self):
+        new_rock = Rock()
+        self.rocks.append(new_rock)
+        self.rock_count += 1
 
 
 
@@ -391,6 +391,8 @@ class App:
                 pyxel.blt(o.x, o.y,1,8,77,20,20,13)            
             for r in self.rocks:
                 pyxel.blt(r.x, r.y,1,28,40,20,18,7)
+            for r in self.rocks[:self.rock_count]:
+                pyxel.blt(r.x, r.y, 1, 28, 40, 20, 18, 7)
         
 
         pyxel.blt(self.pad.x,406, 0, 0, 0,100, 94, 10)    

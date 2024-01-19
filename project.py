@@ -106,7 +106,7 @@ class App:
     def __init__(self):
         self.score = 0
         self.fale = 0
-        self.rocks_to_add = 6
+        self.rocks_to_add = 7
         self.last_rock_score = 0
         self.pad = Pad()
 
@@ -116,10 +116,9 @@ class App:
         self.grape3 = Grape()
         self.grape4 = Grape()
         self.grape5 = Grape()
-        self.grape6 = Grape()
-        self.grape7 = Grape()
+
         self.grapes = [self.grape1, self.grape2, self.grape3, 
-        self.grape4, self.grape5, self.grape6, self.grape7]
+        self.grape4, self.grape5]
 
 
         self.apple=1
@@ -197,8 +196,8 @@ class App:
         for g in self.grapes:
             g.move()
             if 390 <= g.y <= 410 and self.pad.x <= g.x <= self.pad.x+100 :
-                pyxel.playm(0, loop= False)
-                self.score += 1
+                pyxel.playm(5, loop= False)
+                self.score += 2
                 g.restart()    
                 if self.score % 20 == 0:
                     Grape.speed += 1          
